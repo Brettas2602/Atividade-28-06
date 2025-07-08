@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6 text-center">Empréstimos</h1>
+
+  <div class="flex justify-end mb-4">
+    <a href="{% url 'registrar_emprestimo' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+      Novo Empréstimo
+    </a>
+  </div>
+
+  <ul class="space-y-4">
+    {% for emp in emprestimos %}
+      <li class="bg-white border rounded-lg p-4 shadow-sm flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <div>
+          <p>
+            <span class="font-semibold">{{ emp.aluno.nome_completo }}</span> pegou 
+            "<span class="italic">{{ emp.livro.titulo }}</span>" em {{ emp.data_emprestimo }}
+          </p>
+          {% if not emp.esta_ativo and emp.data_devolucao %}
+            <p class="text-gray-500 text-sm mt-1">Devolvido em {{ emp.data_devolucao }}</p>
+          {% endif %}
+        </div>
+        <div class="mt-3 sm:mt-0 space-x-3 text-sm min-w-max">
+          {% if emp.esta_ativo %}
+            <span class="text-green-600 font-semibold">Ativo</span>
+            <a href="{% url 'registrar_devolucao' emp.id %}" class="text-yellow-600 hover:underline ml-4">Registrar Devolução</a>
+          {% endif %}
+        </div>
+      </li>
+    {% empty %}
+      <p class="text-center text-gray-500">Nenhum empréstimo registrado.</p>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

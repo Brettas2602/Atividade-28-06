@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-xl mx-auto px-4 py-8 bg-white rounded shadow">
+  <h1 class="text-2xl font-bold mb-6 text-center">Cadastrar / Editar Livro</h1>
+
+  <form method="post" class="space-y-4">
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        <label class="block font-medium text-gray-700 mb-1">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-500 text-sm mt-1">{{ field.errors|striptags }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="flex justify-end space-x-2">
+      <a href="{% url 'listar_livros' %}" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</a>
+      <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
